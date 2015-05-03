@@ -1,27 +1,4 @@
-![](https://travis-ci.org/hemanth/es6-lab-setup.svg?branch=master)
 
-> What the hell is this?
+A start point for es6 labs running jasmine specs transpiled with babeljs
 
-Simply put it's a place where you code in ES6 which gets converted to ES5 on the fly along with jasmine test.
-
-ES6 => ECMAScript6
-
-> How to setup your ES6 LAB?
-
-* git clone https://github.com/hemanth/es6-lab-setup.git
-
-* cd es6-lab-setup
-
-* npm install
-
-* gulp
-
-That would watch for any changes in `js` and `spec` dir and fire a `babel` or `traceur` and `jasmine` task.
-
-P.S: You may use `gulp babel` or `gulp traceur` as per your need, defaults to `babel`.
-__Sample usage:__
-
-![](/images/es6-lab.gif)
-
-
-More ES6 recpies at [paws-on-es6](https://github.com/hemanth/paws-on-es6)
+Originally from [here](https://travis-ci.org/hemanth/es6-lab-setup.svg?branch=master)
