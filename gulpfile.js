@@ -29,13 +29,22 @@ gulp.task('traceur', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('jasmine', function() {
- return gulp.src('spec/test.js')
-        .pipe(jasmine());
+gulp.task('babel-spec', function() {
+ return gulp.src('spec/*_spec.js')
+       .pipe(sourcemaps.init())
+       .pipe(to5({
+           stage: 0,
+           loose: 'all'
+       }))
+       .pipe(sourcemaps.write())
+       .pipe(gulp.dest('dist'))
 });
 
-gulp.task('default', ['babel','jasmine'], function() {
-  gulp.watch('js/**/*.js', ['babel']);
+gulp.task('jasmine', ["babel", "babel-spec"], function(cb) {
+ return gulp.src('dist/*_spec.js').pipe(jasmine())
+});
+
+gulp.task('default', function() {
   gulp.watch('js/**/*.js', ['jasmine']);
   gulp.watch('spec/*.js', ['jasmine']);
 });
