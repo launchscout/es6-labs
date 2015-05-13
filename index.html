@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>JavaScript: The Good Parts</title>
+    <script src="http://gnab.github.io/remark/downloads/remark-0.5.9.min.js" type="text/javascript"> </script>
+    <style type="text/css" media="screen">
+      @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+        margin-top: 10px;
+      }
+      h1 { font-size: 3.5em; }
+      h2 { font-size: 3em; }
+      h3 { font-size: 1.6em; }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+      li {
+        font-size: 1.5em;
+      }
+      pre {
+        border-left: 0.4em solid #d7d7d7;
+        padding: 1em !important;
+      }
+      code {
+        background: transparent !important;
+        font-size: 1.4em;
+      }
+      a {
+        color: #F92672;
+        text-decoration: none;
+      }
+      .task {
+        float: right;
+        font-size: 0.9em;
+        padding-top: 0.6em;
+      }
+      .task a {
+        color: #080;
+        text-decoration: none;
+      }
+      .right {
+        float: right;
+        margin-left: 1em;
+      }
+      .pushdown {
+        margin-top: 12em;
+      }
+      table.operators {
+        margin-top: 20px;
+        margin-left: 60px;
+        border: 1px solid black;
+        width: 500px;
+        border-collapse: collapse;
+      }
+      table.operators td {
+        border: 1px solid black;
+        font-size: 1.2em;
+        width: 250px;
+      }
+      table.operators td.header {
+        font-weight: bold;
+      }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse
+
+## Chris Nelson
+## [Gaslight](http://gaslight.co)
+## [@superchris](http://twitter.com/superchris)
+
+---
+# ES 6
+* Your browser doesnt support all of it yet
+* Transpilers to the rescue!
+* Traceur
+* Babel (formerly known as 6to5)
+---
+## Classes
+Convenienter syntax, still uses prototype
+
+    class Thing {
+      constructor(name) {
+        this.name = name;
+      }
+
+      greet() {
+        console.log("Hi, my name is " + this.name);
+      }
+    }
+
+    new Thing("Bob").greet(); // Hi, my name is Bob
+
+---
+## Properties
+
+    class OtherThing {
+      set foo(foo) {
+        console.log(`I got ${foo}`);
+        this._foo = foo;
+      }
+
+      get foo() {
+        return this._foo;
+      }
+    }
+---
+## Improved inheritance
+Super is super
+
+    class OtherThing extends Thing {
+
+      constructor(name, feeling) {
+        super(name);
+        this.feeling = feeling;
+      }
+
+      greet() {
+        super.greet();
+        console.log(" and I feel " + this.feeling);
+      }
+    }
+
+    new OtherThing("Fred", "angry").greet();
+    // Hi, my name is Fred and I feel angry
+---
+## Template strings
+String interpolation for javascript. About time!
+
+    var x = 5, y=3;
+
+    console.log(`${x} + ${y} = ${x + y}`);
+
+    console.log(`
+    They can span
+    all kinds of lines
+    and stuff too.
+    `);
+---
+## Arrow functions
+### Shorter function syntax
+
+    var a = [
+      "Hydrogen",
+      "Helium",
+      "Lithium",
+      "Beryl­lium"
+    ];
+
+    var a2 = a.map(function(s){ return s.length });
+
+    var a3 = a.map( s => s.length );
+---
+## Also preserves value of `this`
+
+    class Thing {
+      constructor() {
+        this.multiple = 5;
+        this.numbers = [1,2,3];
+      }
+
+      multiplyNumbers() {
+        return this.numbers.map((number) => {
+          return number * this.multiple;
+        });
+      }
+    }
+
+    console.log(new Thing().multiplyNumbers());
+---
+## Destructuring
+On arrays:
+
+    var [x,y,,z] = [1,2,3,4,5];
+    console.log(x);
+    console.log(y);
+    console.log(z);
+
+[Try it](http://bit.ly/1Hg2his)
+
+With defaults
+
+    var [x, y=7, z=6] = [1];
+    console.log(x);
+    console.log(y);
+    console.log(z);
+
+[Try it](http://bit.ly/1EzYAxO)
+---
+## Rest and Spread
+### Grabs into an array
+
+    var [x, ...y] = [1, 2, 3];
+    console.log(x);
+    console.log(y);
+
+### Or turns an array into args
+
+    function f(x, y, z) {
+      return x + y + z;
+    }
+    // Pass each elem of array as argument
+    console.log(f(...[1,2,3]))
+
+[Try it](http://bit.ly/1JbuYMO)
+---
+## Destructuring objects
+
+    var obj = {
+      cat: "hat",
+      sat: "fat",
+      other: {
+        thing: "wuzzle"
+      }
+    };
+
+Simpler
+
+    var { cat, sat } = obj;
+    console.log(cat);
+    console.log(sat);
+
+Not so simple
+
+    var { cat: animal, other: { thing: thingValue} } = obj;
+    console.log(animal);
+    console.log(thingValue);
+
+[Try it](http://bit.ly/1cQFKMe)
+---
+
+## ES6 Modules
+
+A mechanism for separating javascript into multiple files
+with explicit control over namespacing.
+
+### Module
+
+A javascript file that exports values which can be imported
+by other modules.
+
+`lib/stuff.js`
+
+    export function sum(x, y) {
+      return x + y;
+    }
+    export var pi = 3.141593;
+
+    export class Foo {
+      quack() {
+        return "quack!";
+      }
+    }
+
+sum, pi and Foo are exported
+
+---
+## Importing
+Import all the things
+
+    import * as theStuff from "lib/stuff";
+    console.log(theStuff.sum(1, 2));
+
+Import some of the things
+
+    import { sum, Foo} from "lib, stuff";
+    var foo = new Foo();
+    console.log(foo.quack());
+
+---
+## Export default
+
+`lib/foo.js`
+
+    export default class Foo {}
+
+`app.js`
+
+    import Foo from "lib/foo"
+
+---
+## ES6 Modules aren't supported in JSBin (or any of its ilk)
+## We'll use SystemJS
+---
+
+    </textarea>
+    <script>
+      var slideshow = remark.create({ highlightLanguage: 'javascript'});
+    </script>
+  </body>
+</html>
