@@ -1,4 +1,4 @@
-import Foo from "./foo.es6.js";
+import Foo from "./foo";
 
 describe("Foo", function() {
   it("exists", function() {
