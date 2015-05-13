@@ -36,7 +36,7 @@
       }
       code {
         background: transparent !important;
-        font-size: 1.4em;
+        font-size: 1.2em;
       }
       a {
         color: #F92672;
@@ -106,22 +106,52 @@ Convenienter syntax, still uses prototype
 
     new Thing("Bob").greet(); // Hi, my name is Bob
 
+[Try me](http://bit.ly/1cwYdge)
 ---
 ## Properties
 
-    class OtherThing {
+    class AuditableThing {
+
+      constructor() {
+        this._fooChanges = [];
+        this._foo = 0;
+      }
+
       set foo(foo) {
-        console.log(`I got ${foo}`);
+        this._fooChanges.push([this._foo, foo]);
         this._foo = foo;
       }
 
       get foo() {
         return this._foo;
       }
+
+      get fooChanges() {
+        return this._fooChanges;
+      }
     }
+
+    var auditableThing = new AuditableThing()
+    auditableThing.foo = 1;
+    auditableThing.foo = 2;
+    auditableThing.foo = 3;
+    console.log(auditableThing.fooChanges);
+
+[Try me](http://bit.ly/1FkxBfq)
+
 ---
 ## Improved inheritance
 Super is super
+
+    class Thing {
+      constructor(name) {
+        this.name = name;
+      }
+
+      greet() {
+        console.log("Hi, my name is " + this.name);
+      }
+    }
 
     class OtherThing extends Thing {
 
@@ -136,8 +166,10 @@ Super is super
       }
     }
 
-    new OtherThing("Fred", "angry").greet();
-    // Hi, my name is Fred and I feel angry
+    var otherThing = new OtherThing("Fred", "angry");
+    console.log(otherThing.greet());
+
+[Try me](http://bit.ly/1ECBM0F)
 ---
 ## Template strings
 String interpolation for javascript. About time!
@@ -151,6 +183,8 @@ String interpolation for javascript. About time!
     all kinds of lines
     and stuff too.
     `);
+
+[Try me](http://bit.ly/1PGFEmr)
 ---
 ## Arrow functions
 ### Shorter function syntax
@@ -163,8 +197,12 @@ String interpolation for javascript. About time!
     ];
 
     var a2 = a.map(function(s){ return s.length });
+    console.log(a2);
 
     var a3 = a.map( s => s.length );
+    console.log(a3);
+
+[Try me](http://bit.ly/1H3EIUs)
 ---
 ## Also preserves value of `this`
 
@@ -182,6 +220,8 @@ String interpolation for javascript. About time!
     }
 
     console.log(new Thing().multiplyNumbers());
+
+[Try me](http://bit.ly/1FkyPax)
 ---
 ## Destructuring
 On arrays:
